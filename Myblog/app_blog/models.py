@@ -4,18 +4,27 @@ from django.utils import timezone
 from django.db import models
 from django.urls import reverse
 
+from django.db import models
+from django.urls import reverse
+
 class Category(models.Model):
+    category = models.CharField('Категорія', max_length=250, help_text='Максимум 250 символів')
+    slug = models.SlugField('Слаг')
 
-    category = models.CharField(u'Категорія',max_length=250, help_text=u'Максимум 250 символів')
-    slug = models.SlugField(u'Слаг')
-
-class Meta:
-    verbose_name = u'Категорія для публікації'
-    verbose_name_plural = u'Категорії для публікацій'
+    class Meta:
+        verbose_name = 'Категорія для публікації'
+        verbose_name_plural = 'Категорії для публікацій'
 
     def __str__(self):
-
         return self.category
+
+    def get_absolute_url(self):
+        try:
+            return reverse('articles-category-list', kwargs={'slug': self.slug})
+        except:
+            return "/"
+
+
 
 class Article(models.Model):
     title = models.CharField('Заголовок', max_length=250, help_text='Максимум 250 сим.')

@@ -1,13 +1,38 @@
 <!DOCTYPE html>
 <html lang="uk">
-
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8">
     <title>Blog</title>
 </head>
-
 <body>
-    Home page
-</body>
 
+    <h2>Категорії</h2>
+    {% if categories %}
+        {% for item in categories %}
+            <div>
+                <a href="{{ item.get_absolute_url }}">
+                    <h4>{{ item.name }}</h4>
+                </a>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <h2>Головні публікації</h2>
+    {% if articles %}
+        {% for item in articles %}
+            <div>
+                <a href="{{ item.get_absolute_url }}">
+                    <h4>{{ item.title }}</h4>
+                </a>
+                <h5>{{ item.pub_date|date:"j E Y" }}</h5>
+                <p>{{ item.description|striptags|truncatewords:32 }}</p>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <a href="{% url 'articles-list' %}">
+        <h4>Всі публікації</h4>
+    </a>
+
+</body>
 </html>
